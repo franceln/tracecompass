@@ -17,6 +17,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tracecompass.common.core.NonNullUtils;
 import org.eclipse.tracecompass.tmf.ui.views.TmfView;
 
 /**
@@ -35,6 +36,7 @@ public class LatencyView extends TmfView {
 
     private @Nullable LatencyTableViewer fTableViewer;
     private @Nullable LatencyIntersectingTableViewer fIntersecTableViewer;
+    private @Nullable ScatterGraphViewer fScatterGraph;
 
     // ------------------------------------------------------------------------
     // Constructor
@@ -58,6 +60,8 @@ public class LatencyView extends TmfView {
         fTableViewer = new LatencyTableViewer(tableViewer);
         TableViewer intersecTableViewer = new TableViewer(sf, SWT.FULL_SELECTION | SWT.VIRTUAL);
         fIntersecTableViewer = new LatencyIntersectingTableViewer(intersecTableViewer);
+        fScatterGraph = new ScatterGraphViewer(sf, NonNullUtils.nullToEmptyString(Messages.LatencyView_title), NonNullUtils.nullToEmptyString(Messages.LatencyView_xAxis),
+                NonNullUtils.nullToEmptyString(Messages.LatencyView_yAxis));
         setInitialData();
     }
 
@@ -73,6 +77,9 @@ public class LatencyView extends TmfView {
         if (fIntersecTableViewer != null) {
             fIntersecTableViewer.getTableViewer().getControl().setFocus();
         }
+        if (fScatterGraph != null) {
+            fScatterGraph.getControl().setFocus();
+        }
     }
 
     @Override
@@ -83,6 +90,9 @@ public class LatencyView extends TmfView {
         }
         if (fIntersecTableViewer != null) {
             fIntersecTableViewer.dispose();
+        }
+        if (fScatterGraph != null) {
+            fScatterGraph.dispose();
         }
     }
 
@@ -95,6 +105,9 @@ public class LatencyView extends TmfView {
         }
         if (fIntersecTableViewer != null) {
             fIntersecTableViewer.setData(fIntersecTableViewer.getAnalysisModule());
+        }
+        if (fScatterGraph != null) {
+            fScatterGraph.setData(fScatterGraph.getAnalysisModule());
         }
     }
 }
