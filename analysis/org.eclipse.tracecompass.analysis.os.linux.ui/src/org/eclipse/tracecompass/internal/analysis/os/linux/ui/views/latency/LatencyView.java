@@ -34,6 +34,7 @@ public class LatencyView extends TmfView {
     public static final String ID = "org.eclipse.tracecompass.analysis.os.linux.views.latency"; //$NON-NLS-1$
 
     private @Nullable LatencyTableViewer fTableViewer;
+    private @Nullable LatencyIntersectingTableViewer fIntersecTableViewer;
 
     // ------------------------------------------------------------------------
     // Constructor
@@ -55,6 +56,8 @@ public class LatencyView extends TmfView {
         SashForm sf = new SashForm(parent, SWT.NONE);
         TableViewer tableViewer = new TableViewer(sf, SWT.FULL_SELECTION | SWT.VIRTUAL);
         fTableViewer = new LatencyTableViewer(tableViewer);
+        TableViewer intersecTableViewer = new TableViewer(sf, SWT.FULL_SELECTION | SWT.VIRTUAL);
+        fIntersecTableViewer = new LatencyIntersectingTableViewer(intersecTableViewer);
         setInitialData();
     }
 
@@ -67,6 +70,9 @@ public class LatencyView extends TmfView {
         if (fTableViewer != null) {
             fTableViewer.getTableViewer().getControl().setFocus();
         }
+        if (fIntersecTableViewer != null) {
+            fIntersecTableViewer.getTableViewer().getControl().setFocus();
+        }
     }
 
     @Override
@@ -74,6 +80,9 @@ public class LatencyView extends TmfView {
         super.dispose();
         if (fTableViewer != null) {
             fTableViewer.dispose();
+        }
+        if (fIntersecTableViewer != null) {
+            fIntersecTableViewer.dispose();
         }
     }
 
@@ -83,6 +92,9 @@ public class LatencyView extends TmfView {
     private void setInitialData() {
         if (fTableViewer != null) {
             fTableViewer.setData(fTableViewer.getAnalysisModule());
+        }
+        if (fIntersecTableViewer != null) {
+            fIntersecTableViewer.setData(fIntersecTableViewer.getAnalysisModule());
         }
     }
 }
